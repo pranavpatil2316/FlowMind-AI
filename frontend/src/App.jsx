@@ -8,7 +8,7 @@ import TaskManager from './components/TaskManager';
 import DailyPlanner from './components/DailyPlanner';
 import EmailGenerator from './components/EmailGenerator';
 import PdfSummarizer from './components/PdfSummarizer';
-import { useTasks } from './context/TaskContext';
+import { TaskProvider, useTasks } from './context/TaskContext';
 import { X, Check } from 'lucide-react';
 
 function AppContent() {
