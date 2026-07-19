@@ -1,43 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { 
-  Sparkles, 
-  Calendar as CalendarIcon, 
-  AlertCircle, 
+  Bell, 
+  Settings, 
+  Search, 
+  ChevronDown,
   CheckCircle2, 
-  HelpCircle,
+  AlertCircle,
   Activity
 } from 'lucide-react';
 import axios from 'axios';
 
 const Navbar = () => {
   const location = useLocation();
-  const [apiStatus, setApiStatus] = useState('checking'); // 'checking' | 'active' | 'demo' | 'error'
-  const [time, setTime] = useState(new Date());
+  const [apiStatus, setApiStatus] = useState('checking');
 
   const getPageTitle = () => {
     switch (location.pathname) {
       case '/':
-        return 'Overview';
+        return 'Dashboard Overview';
       case '/chat':
-        return 'AI Workspace';
+        return 'FlowMind Workspace | Goal: Launch Q3 Campaign';
       case '/tasks':
-        return 'Task Matrix';
+        return 'Task Matrix Hub';
       case '/planner':
-        return 'Daily Schedule';
+        return 'Daily Availability Schedule';
       case '/email':
-        return 'Smart Outreach';
+        return 'Smart Outreach Composer';
       case '/summarize':
-        return 'Document Intelligence';
+        return 'Document Summarizer';
       default:
-        return 'Workspace';
+        return 'Workspace Controller';
     }
   };
-
-  useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   useEffect(() => {
     const checkHealth = async () => {
@@ -53,66 +48,74 @@ const Navbar = () => {
       }
     };
     checkHealth();
-  }, [location.pathname]); // check health on navigation
-
-  const formattedDate = time.toLocaleDateString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-  });
-
-  const formattedTime = time.toLocaleTimeString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  }, [location.pathname]);
 
   return (
-    <header className="h-16 border-b border-white/5 bg-slate-950/20 backdrop-blur-md flex items-center justify-between px-6 z-30">
+    <header className="h-16 border-b border-white/5 bg-slate-950/20 backdrop-blur-md flex items-center justify-between px-6 z-30 shrink-0">
       {/* Title */}
       <div className="flex items-center gap-2">
-        <h2 className="text-lg font-bold text-white tracking-tight m-0">
+        <h2 className="text-sm md:text-base font-bold text-white tracking-tight leading-none m-0">
           {getPageTitle()}
         </h2>
       </div>
 
-      {/* Right side info bar */}
-      <div className="flex items-center gap-4">
-        {/* Date and Time (Desktop) */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-slate-300 text-xs font-medium">
-          <CalendarIcon size={13} className="text-cyan-400" />
-          <span>{formattedDate}</span>
-          <span className="text-white/20">|</span>
-          <span>{formattedTime}</span>
-        </div>
-
-        {/* Gemini connection status */}
-        <div className="flex items-center">
+      {/* Right Side Icons */}
+      <div className="flex items-center gap-4.5">
+        {/* API Health badge (compact) */}
+        <div className="hidden sm:flex items-center">
           {apiStatus === 'checking' && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-white/5 text-slate-400 text-xs">
-              <Activity size={13} className="animate-spin text-slate-400" />
-              <span>Verifying AI...</span>
+            <div className="flex items-center gap-1 text-[10px] text-slate-400">
+              <Activity size={10} className="animate-spin" />
+              <span>Verifying...</span>
             </div>
           )}
           {apiStatus === 'active' && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-              <CheckCircle2 size={13} className="text-emerald-400" />
-              <span className="hidden sm:inline">Gemini AI Active</span>
-              <span className="sm:hidden">Gemini OK</span>
+            <div className="flex items-center gap-1 text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <span>Gemini Active</span>
             </div>
           )}
           {apiStatus === 'demo' && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-400 text-xs font-semibold">
-              <AlertCircle size={13} className="text-amber-400" />
-              <span className="hidden sm:inline">Running in Demo Mode</span>
-              <span className="sm:hidden">Demo Mode</span>
+            <div className="flex items-center gap-1 text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+              <span>Demo Mode</span>
             </div>
           )}
           {apiStatus === 'error' && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold">
-              <AlertCircle size={13} className="text-rose-400" />
-              <span>Backend Offline</span>
+            <div className="flex items-center gap-1 text-[10px] text-rose-400 font-bold bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/20">
+              <span>Offline</span>
             </div>
           )}
+        </div>
+
+        {/* Search Bar (Glassmorphic) */}
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs">
+          <Search size={13} className="text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search tasks, goals..."
+            className="bg-transparent border-none outline-none text-white text-xs w-36 placeholder-slate-500"
+          />
+        </div>
+
+        {/* Settings Button */}
+        <button className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+          <Settings size={15} />
+        </button>
+
+        {/* Notifications Icon */}
+        <button className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all relative">
+          <Bell size={15} />
+          <span className="absolute top-1 right-1.5 w-1.5 h-1.5 rounded-full bg-rose-500" />
+        </button>
+
+        {/* User Card Avatar */}
+        <div className="flex items-center gap-2.5 pl-2.5 border-l border-white/5 cursor-pointer group">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
+            AC
+          </div>
+          <div className="hidden md:flex items-center gap-1">
+            <span className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Alex Chen</span>
+            <ChevronDown size={11} className="text-slate-400" />
+          </div>
         </div>
       </div>
     </header>
