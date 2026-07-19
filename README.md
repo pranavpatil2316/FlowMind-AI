@@ -4,6 +4,25 @@ FlowMind AI is a premium, glassmorphic operations hub designed to automate admin
 
 ---
 
+## 💡 About the Project
+**FlowMind AI** is a unified cognitive cockpit designed to eliminate administrative fatigue and structure focus. It integrates conversational goal-decomposition, priority checklist tracking, chronological daily scheduling, OCR-driven document analysis, and dynamic outreach drafting into a single, responsive premium workspace.
+
+## ⚠️ Problems It Solves
+* **Context-Switching Fatigue**: Replaces disjointed single-purpose tools (notes, calendar, GPT chat window, PDF tool, email tab) with a unified workspace.
+* **Decomposition Paralysis**: Converts broad, abstract goals (e.g., *"Design pitch deck"*) into a list of actionable sub-tasks with estimated durations.
+* **Chronological Schedule Gaps**: Maps task lists against concrete available daily hours (e.g., *"I have 3 hours this afternoon"*) to auto-generate a realistic hour-by-hour timeline.
+* **Manual Document Extractions**: Parses uploaded PDF summaries and instantly maps extracted action points directly into your live task checklist with checkboxes.
+
+## 🚀 How to Use It
+1. **Access the Hub**: Log in with your profile name credentials (`pranav.patil@flowmind.ai`).
+2. **Decompose Goals**: Navigate to the **AI Workspace** chat room. Type an abstract target. Click **Import Tasks** to push the generated tasks to your board.
+3. **Manage the Matrix**: Go to the **Task Manager** to refine priorities, deadlines, and view your live productivity metrics.
+4. **Plan Daily Timelines**: Select pending tasks on the **Daily Planner**, specify your available hours, and click **Generate** to map out a clear hour-by-hour schedule.
+5. **Extract PDF Action Items**: Upload text/document references to the **PDF Summarizer** to generate key points and import checkboxes as new tasks.
+6. **Compose Outreach**: Navigate to the **Email Generator** to draft contextual emails in Formal, Casual, or Urgent tones.
+
+---
+
 ## Technical Architecture
 
 ```text
