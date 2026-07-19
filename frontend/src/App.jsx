@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -8,15 +8,25 @@ import TaskManager from './components/TaskManager';
 import DailyPlanner from './components/DailyPlanner';
 import EmailGenerator from './components/EmailGenerator';
 import PdfSummarizer from './components/PdfSummarizer';
-import { TaskProvider } from './context/TaskContext';
+import { useTasks } from './context/TaskContext';
+import { X, Check } from 'lucide-react';
 
-function App() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    return sessionStorage.getItem('flowmind_logged_in') === 'true';
-  });
-  const [loadingApp, setLoadingApp] = useState(true);
-  const [loginLoading, setLoginLoading] = useState(false);
+function AppContent() {
+  const { 
+    isLoggedIn, 
+    setIsLoggedIn,
+    showSettingsModal, 
+    setShowSettingsModal, 
+    theme, 
+    setTheme, 
+    accentColor, 
+    setAccentColor,
+    addNotification
+  } = useTasks();
+
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
+  const [loadingApp, setLoadingApp] = React.useState(true);
+  const [loginLoading, setLoginLoading] = React.useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -31,15 +41,15 @@ function App() {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     setLoginLoading(true);
-    // Simulate brief authentication response latency
     setTimeout(() => {
       setIsLoggedIn(true);
       sessionStorage.setItem('flowmind_logged_in', 'true');
       setLoginLoading(false);
+      addNotification('Logged in as Alex Chen.', 'system');
     }, 1000);
   };
 
-  // 1. Splash Loading View (with the glowing gradient ribbon logo)
+  // 1. Splash Loading View
   if (loadingApp) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center bg-bg-dark bg-gradient-radial text-slate-100 relative">
@@ -127,7 +137,7 @@ function App() {
               <input
                 type="email"
                 required
-                defaultValue="pranav.patil@flowmind.ai"
+                defaultValue="alex.chen@flowmind.ai"
                 className="w-full px-3.5 py-2.5 text-xs md:text-sm glass-input"
               />
             </div>
@@ -167,44 +177,142 @@ function App() {
 
   // 3. Authenticated App Layout
   return (
-    <TaskProvider>
-      <Router>
-        <div className="flex h-screen w-screen items-center justify-center bg-bg-dark bg-gradient-radial text-slate-200 relative p-4 md:p-6 overflow-hidden">
+    <Router>
+      <div className="flex h-screen w-screen items-center justify-center bg-bg-dark bg-gradient-radial text-slate-200 relative p-4 md:p-6 overflow-hidden">
+        
+        {/* Ambient Background Glow Orbs */}
+        <div className="glow-orb w-[550px] h-[550px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
+        <div className="glow-orb w-[650px] h-[650px] bg-purple-500/6 bottom-[-150px] left-[-150px] animate-float-slow" />
+        <div className="glow-orb w-[450px] h-[450px] bg-blue-500/4 top-[35%] left-[40%] animate-float" style={{ animationDelay: '-4s' }} />
+
+        {/* Styled browser frame window container matching screenshots */}
+        <div className="w-full max-w-7xl h-full flex rounded-[24px] border border-white/5 glass-panel shadow-2xl overflow-hidden z-10 relative">
           
-          {/* Ambient Background Glow Orbs */}
-          <div className="glow-orb w-[550px] h-[550px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
-          <div className="glow-orb w-[650px] h-[650px] bg-purple-500/6 bottom-[-150px] left-[-150px] animate-float-slow" />
-          <div className="glow-orb w-[450px] h-[450px] bg-blue-500/4 top-[35%] left-[40%] animate-float" style={{ animationDelay: '-4s' }} />
+          {/* Sidebar */}
+          <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-          {/* Styled browser frame window container matching screenshots */}
-          <div className="w-full max-w-7xl h-full flex rounded-[24px] border border-white/5 glass-panel shadow-2xl overflow-hidden z-10 relative">
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col h-full overflow-hidden">
             
-            {/* Sidebar */}
-            <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+            {/* Navbar */}
+            <Navbar />
 
-            {/* Main Content Area */}
-            <div className="flex-1 flex flex-col h-full overflow-hidden">
-              
-              {/* Navbar */}
-              <Navbar />
-
-              {/* Dynamic Viewport */}
-              <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-900/10">
-                <div className="animate-fade-in h-full">
-                  <Routes>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/chat" element={<ChatAssistant />} />
-                    <Route path="/tasks" element={<TaskManager />} />
-                    <Route path="/planner" element={<DailyPlanner />} />
-                    <Route path="/email" element={<EmailGenerator />} />
-                    <Route path="/summarize" element={<PdfSummarizer />} />
-                  </Routes>
-                </div>
-              </main>
-            </div>
+            {/* Dynamic Viewport */}
+            <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-900/10">
+              <div className="animate-fade-in h-full">
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/chat" element={<ChatAssistant />} />
+                  <Route path="/tasks" element={<TaskManager />} />
+                  <Route path="/planner" element={<DailyPlanner />} />
+                  <Route path="/email" element={<EmailGenerator />} />
+                  <Route path="/summarize" element={<PdfSummarizer />} />
+                </Routes>
+              </div>
+            </main>
           </div>
         </div>
-      </Router>
+
+        {/* --- Global Settings Modal (Option A implementation) --- */}
+        {showSettingsModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+            <div className="w-full max-w-lg glass-card border border-white/10 rounded-3xl p-6 relative shadow-2xl text-left animate-slide-up">
+              {/* Close Button */}
+              <button 
+                onClick={() => setShowSettingsModal(false)}
+                className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              >
+                <X size={16} />
+              </button>
+
+              <h2 className="text-base font-extrabold text-white tracking-tight leading-none mb-5">
+                FlowMind AI Settings
+              </h2>
+
+              <div className="space-y-6">
+                {/* 1. Theme Configuration */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Workspace Theme</label>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => setTheme('dark')}
+                      className={`py-2 px-4 rounded-xl border text-xs font-semibold text-center transition-all ${
+                        theme === 'dark'
+                          ? 'bg-purple-600/25 border-purple-500/50 text-white'
+                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Dark Mode (Default)
+                    </button>
+                    <button
+                      onClick={() => setTheme('light')}
+                      className={`py-2 px-4 rounded-xl border text-xs font-semibold text-center transition-all ${
+                        theme === 'light'
+                          ? 'bg-white/40 border-white/20 text-slate-900 shadow-md'
+                          : 'bg-white/5 border-transparent text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Light Mode
+                    </button>
+                  </div>
+                </div>
+
+                {/* 2. Accent color Configuration */}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Accent Brand Theme</label>
+                  <div className="flex items-center gap-3">
+                    {[
+                      { id: 'indigo', color: 'bg-indigo-600' },
+                      { id: 'violet', color: 'bg-violet-500' },
+                      { id: 'blue', color: 'bg-blue-500' },
+                      { id: 'emerald', color: 'bg-emerald-500' }
+                    ].map((col) => (
+                      <button
+                        key={col.id}
+                        onClick={() => setAccentColor(col.id)}
+                        className={`w-8 h-8 rounded-full ${col.color} border-2 flex items-center justify-center transition-all ${
+                          accentColor === col.id ? 'border-white scale-110 shadow-lg' : 'border-transparent hover:scale-105'
+                        }`}
+                      >
+                        {accentColor === col.id && <Check size={14} className="text-white" />}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 3. Profile Information */}
+                <div className="p-4 rounded-2xl bg-slate-950/20 border border-white/5 space-y-2">
+                  <span className="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider block">User Profile</span>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="text-slate-400 block text-[10px] font-semibold">User Name</span>
+                      <span className="text-white font-bold">Alex Chen</span>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 block text-[10px] font-semibold">Email Address</span>
+                      <span className="text-white font-bold">alex.chen@flowmind.ai</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. About Info */}
+                <div className="text-center text-[10px] text-slate-500 leading-relaxed pt-2">
+                  <p className="font-bold text-slate-400">FlowMind AI Productivity Workspace v1.0.0</p>
+                  <p className="mt-1">Powered by Google Gemini 3.5 Flash. Open sourced under MIT License.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </Router>
+  );
+}
+
+function App() {
+  return (
+    <TaskProvider>
+      <AppContent />
     </TaskProvider>
   );
 }

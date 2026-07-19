@@ -3,14 +3,11 @@ import {
   Send, 
   Sparkles, 
   Plus, 
-  Check, 
   Calendar, 
-  AlertCircle,
   Clock,
-  Briefcase,
   Paperclip,
   Smile,
-  Image as ImageIcon,
+  ImageIcon,
   MoreHorizontal,
   Circle,
   TrendingUp,
@@ -21,10 +18,9 @@ import axios from 'axios';
 import { useTasks } from '../context/TaskContext';
 
 const ChatAssistant = () => {
-  const { addTasks, addSuggestion } = useTasks();
+  const { addTasks, addSuggestion, addNotification } = useTasks();
   
-  // Set up the default messages to match the chat_workspace.png screenshot 100%
-  const [messages, setMessages] = useState([
+  const initialMessages = [
     {
       id: 'mock-user-1',
       sender: 'user',
@@ -49,8 +45,9 @@ const ChatAssistant = () => {
         { day: "Tue 2", slots: ["10:00-12:00 (Asset Creation)", "15:00-17:00 (Review Emails)"] }
       ]
     }
-  ]);
+  ];
 
+  const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [addedTaskMap, setAddedTaskMap] = useState({});
@@ -86,7 +83,6 @@ const ChatAssistant = () => {
       const response = await axios.post('/api/chat', { message: userPrompt });
       const data = response.data;
 
-      // Group schedule results into the Day-Slots schema if they contain day strings
       const formattedSchedule = data.suggested_schedule && data.suggested_schedule.length > 0
         ? [
             { 
@@ -131,22 +127,40 @@ const ChatAssistant = () => {
   };
 
   const handleAddTasks = (msgId, tasksToAdd) => {
-    // Standardize to matching task format
     const formatted = tasksToAdd.map(t => ({
       title: t.title,
       description: t.description || `Extracted task: ${t.title}`,
       priority: t.priority || "Medium",
-      duration: t.estimated_duration || "1 hour"
+      duration: t.estimated_duration || t.deadline || "1 hour"
     }));
     addTasks(formatted);
     setAddedTaskMap(prev => ({ ...prev, [msgId]: true }));
+    addNotification(`Imported ${tasksToAdd.length} tasks from goal breakdown.`, 'task');
+  };
+
+  // Attach button triggers
+  const handleAttachment = () => {
+    addNotification('File attachment dialog simulated. Select local files to parse.', 'system');
+  };
+
+  const handleImageUpload = () => {
+    addNotification('Image upload dialog simulated. Upload images to analyze UI context.', 'system');
+  };
+
+  const handleEmojiClick = () => {
+    setInput(prev => prev + ' 😊');
+  };
+
+  const handleOptionsClick = () => {
+    setMessages(initialMessages);
+    addNotification('Reset conversation log to default Q3 mockup.', 'system');
   };
 
   return (
     <div className="flex h-[calc(100vh-8.5rem)] max-w-6xl mx-auto rounded-2xl overflow-hidden border border-white/5 shadow-2xl animate-slide-up">
       
-      {/* 2-Column Split: Chat (Left/Center) & Workspace Info (Right) */}
-      <div className="flex-1 flex flex-col h-full bg-slate-950/20 relative min-w-0">
+      {/* 2-Column Split: Chat & Workspace Info */}
+      <div className="flex-1 flex flex-col h-full bg-slate-950/20 relative min-w-0 text-left">
         
         {/* Chat History Viewport */}
         <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
@@ -157,7 +171,7 @@ const ChatAssistant = () => {
                 key={msg.id} 
                 className={`flex items-start gap-3.5 max-w-[85%] ${isAi ? 'mr-auto' : 'ml-auto flex-row-reverse'}`}
               >
-                {/* Profile Photo / Symbol */}
+                {/* Profile Avatar */}
                 <div className={`w-8.5 h-8.5 rounded-full flex items-center justify-center text-white shrink-0 overflow-hidden shadow-md ${
                   isAi 
                     ? 'bg-gradient-to-tr from-indigo-500 to-purple-600' 
@@ -172,15 +186,13 @@ const ChatAssistant = () => {
                   )}
                 </div>
 
-                {/* Speech & structured data */}
+                {/* Bubble content */}
                 <div className="space-y-3.5 flex-1 min-w-0">
-                  {/* Bubble header */}
                   <div className={`flex items-center gap-2 text-[10px] text-slate-500 ${!isAi ? 'flex-row-reverse' : ''}`}>
                     <span className="font-bold text-slate-300">{isAi ? 'FlowMind AI' : 'User (Me)'}</span>
                     <span>{msg.time}</span>
                   </div>
 
-                  {/* Bubble content */}
                   <div className={`p-4 rounded-2xl border text-xs md:text-sm font-semibold leading-relaxed ${
                     isAi 
                       ? 'bg-white/[0.015] border-white/5 text-slate-200 rounded-tl-none' 
@@ -189,11 +201,10 @@ const ChatAssistant = () => {
                     <p className="whitespace-pre-wrap">{msg.text}</p>
                   </div>
 
-                  {/* Screenshot Mock Format or Active JSON Tasks */}
                   {isAi && msg.tasks && msg.tasks.length > 0 && (
-                    <div className="glass-card border border-white/5 rounded-2xl p-4 md:p-5 space-y-4 shadow-lg">
+                    <div className="glass-card border border-white/5 rounded-2xl p-4 md:p-5 space-y-4 shadow-lg text-left">
                       
-                      {/* Section 1: Goals */}
+                      {/* Goal Breakdown */}
                       {msg.goal && (
                         <div className="pb-3 border-b border-white/[0.04] flex items-center justify-between">
                           <span className="text-[11px] font-extrabold text-white">
@@ -212,7 +223,7 @@ const ChatAssistant = () => {
                         </div>
                       )}
 
-                      {/* Section 2: Tasks List */}
+                      {/* Tasks List */}
                       <div className="space-y-3">
                         <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">**I. High-Priority Tasks:**</span>
                         <div className="space-y-2.5">
@@ -233,18 +244,16 @@ const ChatAssistant = () => {
                         </div>
                       </div>
 
-                      {/* Section 3: Proposed Schedule */}
+                      {/* Proposed Schedule */}
                       {msg.schedule && msg.schedule.length > 0 && (
                         <div className="space-y-3 pt-2 border-t border-white/[0.04]">
-                          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">**II. Proposed Schedule:**</span>
+                          <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider block">**II. Proposed Schedule (Week 1 & 2):**</span>
                           <div className="space-y-3">
                             {msg.schedule.map((item, idx) => (
                               <div key={idx} className="flex items-start gap-4 text-xs">
-                                {/* Day box */}
                                 <div className="w-12 text-center bg-slate-900 border border-white/5 p-2 rounded-xl shrink-0 font-bold text-slate-400">
                                   {item.day || "Day"}
                                 </div>
-                                {/* Slots list */}
                                 <div className="flex-1 space-y-1.5 pl-3 border-l border-white/5">
                                   {item.slots ? item.slots.map((slot, sIdx) => (
                                     <div key={sIdx} className="text-slate-300 font-medium leading-none">{slot}</div>
@@ -267,18 +276,30 @@ const ChatAssistant = () => {
           <div ref={chatEndRef} />
         </div>
 
-        {/* Input area styled exactly like chat_workspace.png */}
+        {/* Input panel with fully wired button handlers */}
         <form onSubmit={handleSubmit} className="p-4 border-t border-white/5 bg-slate-950/40">
           <div className="glass-card rounded-2xl p-2 flex items-center gap-2 border border-white/5">
             {/* Left toolbar */}
             <div className="flex items-center gap-1 pl-1">
-              <button type="button" className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors">
+              <button 
+                type="button" 
+                onClick={handleAttachment}
+                className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors"
+              >
                 <Paperclip size={14} />
               </button>
-              <button type="button" className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors">
+              <button 
+                type="button" 
+                onClick={handleEmojiClick}
+                className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors"
+              >
                 <Smile size={14} />
               </button>
-              <button type="button" className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors">
+              <button 
+                type="button" 
+                onClick={handleImageUpload}
+                className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors"
+              >
                 <ImageIcon size={14} />
               </button>
             </div>
@@ -293,7 +314,6 @@ const ChatAssistant = () => {
                 placeholder="Chat info..."
                 className="w-full bg-transparent border-none outline-none text-white text-xs py-2 px-1 placeholder-slate-600"
               />
-              {/* Pill badge showing brand */}
               <div className="absolute right-2 hidden sm:flex items-center gap-1 bg-gradient-to-r from-indigo-600 to-purple-600 border border-indigo-500/30 text-[9px] font-bold text-white px-2.5 py-0.5 rounded-full shrink-0">
                 <Sparkles size={8} />
                 <span>FlowMind AI</span>
@@ -302,7 +322,11 @@ const ChatAssistant = () => {
 
             {/* Right actions */}
             <div className="flex items-center gap-1.5">
-              <button type="button" className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors">
+              <button 
+                type="button" 
+                onClick={handleOptionsClick}
+                className="p-2 rounded-lg text-slate-500 hover:text-white transition-colors"
+              >
                 <MoreHorizontal size={14} />
               </button>
               <button
@@ -318,19 +342,17 @@ const ChatAssistant = () => {
 
       </div>
 
-      {/* Right Sidebar: Workspace Details Panel (matching chat_workspace.png) */}
+      {/* Right Sidebar: Workspace Details Panel */}
       <div className="hidden lg:flex w-64 border-l border-white/5 bg-slate-950/30 flex-col justify-between shrink-0 p-5 space-y-6">
         
         {/* Participants */}
         <div className="space-y-3">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Participants</span>
           <div className="space-y-2.5">
-            {/* User */}
             <div className="flex items-center gap-2.5 text-xs font-bold text-white">
               <div className="w-6 h-6 rounded-full bg-cyan-600 flex items-center justify-center text-white text-[9px]">U</div>
               <span>User</span>
             </div>
-            {/* AI */}
             <div className="flex items-center gap-2.5 text-xs font-bold text-white">
               <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white">
                 <Sparkles size={9} />
@@ -340,7 +362,7 @@ const ChatAssistant = () => {
           </div>
         </div>
 
-        {/* Active Tasks list matching screenshot */}
+        {/* Active Tasks list */}
         <div className="space-y-3">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Active Tasks</span>
           <div className="space-y-2.5">

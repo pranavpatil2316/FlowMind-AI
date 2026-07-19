@@ -9,10 +9,14 @@ import {
   FileText, 
   Menu, 
   X, 
-  TrendingUp
+  TrendingUp,
+  Settings
 } from 'lucide-react';
+import { useTasks } from '../context/TaskContext';
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const { setShowSettingsModal } = useTasks();
+
   const menuItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { name: 'AI Workspace', path: '/chat', icon: MessageSquare },
@@ -39,7 +43,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo Brand Area (with glowing gradient ribbon logo from screenshots) */}
+          {/* Logo Brand Area */}
           <div className="p-6 border-b border-white/5 flex items-center gap-3">
             <div className="p-2 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center shrink-0">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
@@ -105,6 +109,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 </NavLink>
               );
             })}
+
+            {/* Custom Settings Trigger Link */}
+            <button
+              onClick={() => {
+                setShowSettingsModal(true);
+                if (window.innerWidth < 1024) toggleSidebar();
+              }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-250 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent group relative text-left"
+            >
+              <Settings 
+                size={18} 
+                className="transition-colors duration-200 text-slate-400 group-hover:text-white" 
+              />
+              <span className="text-sm font-medium">Settings</span>
+            </button>
           </nav>
         </div>
 

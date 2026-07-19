@@ -12,7 +12,7 @@ import {
 import { useTasks } from '../context/TaskContext';
 
 const TaskManager = () => {
-  const { tasks, addTask, updateTask, deleteTask, toggleTask } = useTasks();
+  const { tasks, addTask, updateTask, deleteTask, toggleTask, searchQuery } = useTasks();
   
   // Local UI States
   const [filter, setFilter] = useState('All'); // 'All' | 'Pending' | 'Completed'
@@ -73,6 +73,12 @@ const TaskManager = () => {
 
   // Filter Tasks
   const filteredTasks = tasks.filter(task => {
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const matchTitle = task.title.toLowerCase().includes(q);
+      const matchDesc = (task.description || '').toLowerCase().includes(q);
+      if (!matchTitle && !matchDesc) return false;
+    }
     if (filter === 'Pending') return task.status === 'Pending';
     if (filter === 'Completed') return task.status === 'Completed';
     return true;

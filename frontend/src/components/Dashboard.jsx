@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   Plus, 
@@ -6,16 +6,31 @@ import {
   Lightbulb, 
   Sparkles, 
   CheckCircle,
-  Briefcase,
-  Layers,
-  Circle
+  Circle,
+  TrendingUp
 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { useTasks } from '../context/TaskContext';
 
 const Dashboard = () => {
-  const { tasks, suggestions } = useTasks();
+  const { tasks, suggestions, addNotification } = useTasks();
   const navigate = useNavigate();
+
+  // Spinning states for refresh actions
+  const [spinning, setSpinning] = useState({
+    overview: false,
+    priority: false,
+    insights: false,
+    activities: false
+  });
+
+  const handleRefresh = (section) => {
+    setSpinning(prev => ({ ...prev, [section]: true }));
+    setTimeout(() => {
+      setSpinning(prev => ({ ...prev, [section]: false }));
+      addNotification(`Refreshed ${section} data successfully.`, 'system');
+    }, 600);
+  };
 
   // Task computations
   const totalTasks = tasks.length;
@@ -32,7 +47,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto animate-slide-up h-full">
+    <div className="space-y-6 max-w-6xl mx-auto animate-slide-up h-full text-left">
       {/* 2x2 Grid Widget Matrix */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
@@ -48,7 +63,12 @@ const Dashboard = () => {
                 <Plus size={10} />
                 <span>Add Task</span>
               </button>
-              <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><RefreshCw size={11} /></button>
+              <button 
+                onClick={() => handleRefresh('overview')}
+                className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+              >
+                <RefreshCw size={11} className={spinning.overview ? 'animate-spin text-purple-400' : ''} />
+              </button>
             </div>
           </div>
 
@@ -59,7 +79,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Bar Chart (Visual custom divs matching screenshot) */}
+          {/* Bar Chart */}
           <div className="flex items-end justify-between gap-4 h-32 mt-4 pb-2">
             {/* Completed */}
             <div className="flex-1 flex flex-col gap-2">
@@ -111,7 +131,12 @@ const Dashboard = () => {
             <span className="text-sm font-bold text-white tracking-wide">Priority Chart</span>
             <div className="flex items-center gap-2">
               <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><Plus size={12} /></button>
-              <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><RefreshCw size={11} /></button>
+              <button 
+                onClick={() => handleRefresh('priority')}
+                className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+              >
+                <RefreshCw size={11} className={spinning.priority ? 'animate-spin text-purple-400' : ''} />
+              </button>
             </div>
           </div>
 
@@ -167,11 +192,16 @@ const Dashboard = () => {
             <span className="text-sm font-bold text-white tracking-wide">AI Productivity Insights</span>
             <div className="flex items-center gap-2">
               <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><Plus size={12} /></button>
-              <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><RefreshCw size={11} /></button>
+              <button 
+                onClick={() => handleRefresh('insights')}
+                className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+              >
+                <RefreshCw size={11} className={spinning.insights ? 'animate-spin text-purple-400' : ''} />
+              </button>
             </div>
           </div>
 
-          <div className="mt-4 flex-1">
+          <div className="mt-4 flex-1 text-left">
             <div className="flex items-center gap-1.5 mb-3.5">
               <Lightbulb size={14} className="text-amber-400" />
               <span className="text-[11px] font-bold text-white tracking-wide">FlowMind AI Suggestions</span>
@@ -195,10 +225,15 @@ const Dashboard = () => {
         <div className="glass-card p-5 rounded-2xl flex flex-col justify-between h-[320px] border border-white/5 shadow-lg">
           <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.04]">
             <span className="text-sm font-bold text-white tracking-wide">Recent Activities</span>
-            <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><RefreshCw size={11} /></button>
+            <button 
+              onClick={() => handleRefresh('activities')}
+              className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+            >
+              <RefreshCw size={11} className={spinning.activities ? 'animate-spin text-purple-400' : ''} />
+            </button>
           </div>
 
-          <div className="mt-4 flex-1 space-y-4">
+          <div className="mt-4 flex-1 space-y-4 text-left">
             {/* Item 1 */}
             <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-300">
               <div className="w-7 h-7 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center text-slate-400">
@@ -210,7 +245,7 @@ const Dashboard = () => {
             {/* Item 2 */}
             <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-300">
               <div className="w-7 h-7 rounded-lg bg-slate-900 border border-white/5 flex items-center justify-center text-purple-400">
-                <Sparkles size={12} className="text-purple-400 animate-pulse-slow" />
+                <Sparkles size={12} className="text-purple-400" />
               </div>
               <span className="flex-1">AI optimized Workflow A</span>
             </div>
