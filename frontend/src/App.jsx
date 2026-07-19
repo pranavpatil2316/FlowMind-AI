@@ -39,7 +39,7 @@ function App() {
     }, 1000);
   };
 
-  // 1. Splash Loading View
+  // 1. Splash Loading View (with the glowing gradient ribbon logo)
   if (loadingApp) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center bg-bg-dark bg-gradient-radial text-slate-100 relative">
@@ -47,11 +47,23 @@ function App() {
         <div className="glow-orb w-[400px] h-[400px] bg-purple-600/10 bottom-[20%] right-[30%] animate-float-slow" />
         
         <div className="z-10 flex flex-col items-center text-center space-y-6">
-          {/* Pulsing FM Logo */}
-          <div className="p-5 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 shadow-2xl shadow-indigo-500/40 animate-pulse-slow">
-            <svg className="w-10 h-10 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 20V4h9M4 12h6" />
-              <path d="M12 20V8l4 4 4-4v12" />
+          {/* Pulsing FM Ribbon Logo */}
+          <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/5 shadow-2xl shadow-purple-500/20 animate-pulse-slow">
+            <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.75))' }}>
+              <defs>
+                <linearGradient id="fm-logo-large" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="60%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#ec4899" />
+                </linearGradient>
+              </defs>
+              <path 
+                d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
+                stroke="url(#fm-logo-large)" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
             </svg>
           </div>
           <div>
@@ -79,11 +91,23 @@ function App() {
         <div className="glow-orb w-[500px] h-[500px] bg-purple-600/8 bottom-[-50px] left-[-50px] animate-float-slow" />
 
         <div className="w-full max-w-md glass-card p-6 md:p-8 rounded-3xl border border-white/5 shadow-2xl flex flex-col items-center text-center space-y-6 z-10 animate-slide-up">
-          {/* Brand Logo */}
-          <div className="p-3.5 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 shadow-md">
-            <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 20V4h9M4 12h6" />
-              <path d="M12 20V8l4 4 4-4v12" />
+          {/* Brand Ribbon Logo */}
+          <div className="p-3 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center">
+            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
+              <defs>
+                <linearGradient id="fm-logo-login" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3b82f6" />
+                  <stop offset="60%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#ec4899" />
+                </linearGradient>
+              </defs>
+              <path 
+                d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
+                stroke="url(#fm-logo-login)" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
             </svg>
           </div>
 
@@ -145,35 +169,39 @@ function App() {
   return (
     <TaskProvider>
       <Router>
-        <div className="flex h-screen w-screen overflow-hidden bg-bg-dark bg-gradient-radial text-slate-200 relative">
+        <div className="flex h-screen w-screen items-center justify-center bg-bg-dark bg-gradient-radial text-slate-200 relative p-4 md:p-6 overflow-hidden">
           
           {/* Ambient Background Glow Orbs */}
-          <div className="glow-orb w-[500px] h-[500px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
-          <div className="glow-orb w-[600px] h-[600px] bg-purple-500/6 bottom-[-150px] left-[-150px] animate-float-slow" />
+          <div className="glow-orb w-[550px] h-[550px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
+          <div className="glow-orb w-[650px] h-[650px] bg-purple-500/6 bottom-[-150px] left-[-150px] animate-float-slow" />
           <div className="glow-orb w-[450px] h-[450px] bg-blue-500/4 top-[35%] left-[40%] animate-float" style={{ animationDelay: '-4s' }} />
 
-          {/* Sidebar */}
-          <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-
-          {/* Main Content Area */}
-          <div className="flex-1 flex flex-col h-full overflow-hidden z-10">
+          {/* Styled browser frame window container matching screenshots */}
+          <div className="w-full max-w-7xl h-full flex rounded-[24px] border border-white/5 glass-panel shadow-2xl overflow-hidden z-10 relative">
             
-            {/* Navbar */}
-            <Navbar />
+            {/* Sidebar */}
+            <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
-            {/* Dynamic Viewport */}
-            <main className="flex-1 overflow-y-auto p-4 md:p-6">
-              <div className="animate-fade-in">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/chat" element={<ChatAssistant />} />
-                  <Route path="/tasks" element={<TaskManager />} />
-                  <Route path="/planner" element={<DailyPlanner />} />
-                  <Route path="/email" element={<EmailGenerator />} />
-                  <Route path="/summarize" element={<PdfSummarizer />} />
-                </Routes>
-              </div>
-            </main>
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col h-full overflow-hidden">
+              
+              {/* Navbar */}
+              <Navbar />
+
+              {/* Dynamic Viewport */}
+              <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-slate-900/10">
+                <div className="animate-fade-in h-full">
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/chat" element={<ChatAssistant />} />
+                    <Route path="/tasks" element={<TaskManager />} />
+                    <Route path="/planner" element={<DailyPlanner />} />
+                    <Route path="/email" element={<EmailGenerator />} />
+                    <Route path="/summarize" element={<PdfSummarizer />} />
+                  </Routes>
+                </div>
+              </main>
+            </div>
           </div>
         </div>
       </Router>

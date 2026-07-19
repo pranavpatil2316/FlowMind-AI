@@ -15,8 +15,8 @@ import {
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const menuItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
-    { name: 'AI Chat Assistant', path: '/chat', icon: MessageSquare },
-    { name: 'Smart Tasks', path: '/tasks', icon: ListTodo },
+    { name: 'AI Workspace', path: '/chat', icon: MessageSquare },
+    { name: 'Tasks', path: '/tasks', icon: ListTodo },
     { name: 'Daily Planner', path: '/planner', icon: Calendar },
     { name: 'Email Generator', path: '/email', icon: Mail },
     { name: 'PDF Summarizer', path: '/summarize', icon: FileText },
@@ -39,12 +39,24 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo Brand Area */}
+          {/* Logo Brand Area (with glowing gradient ribbon logo from screenshots) */}
           <div className="p-6 border-b border-white/5 flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 shadow-lg shadow-indigo-500/30 animate-pulse-slow">
-              <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 20V4h9M4 12h6" />
-                <path d="M12 20V8l4 4 4-4v12" />
+            <div className="p-2 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center shrink-0">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
+                <defs>
+                  <linearGradient id="fm-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3b82f6" />
+                    <stop offset="60%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#ec4899" />
+                  </linearGradient>
+                </defs>
+                <path 
+                  d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
+                  stroke="url(#fm-logo-grad)" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
             <div>
