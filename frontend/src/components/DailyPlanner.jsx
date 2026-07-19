@@ -71,7 +71,7 @@ const DailyPlanner = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto animate-slide-up">
+    <div className="space-y-6 w-full animate-slide-up">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Left Side: Planner Setup Form */}

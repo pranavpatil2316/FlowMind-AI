@@ -154,15 +154,15 @@ function AppContent() {
   // 3. Authenticated App Layout
   return (
     <Router>
-      <div className="flex h-screen w-screen items-center justify-center bg-bg-dark bg-gradient-radial text-slate-200 relative p-4 md:p-6 overflow-hidden">
+      <div className="flex h-screen w-screen bg-bg-dark bg-gradient-radial text-slate-200 relative overflow-hidden">
         
         {/* Ambient Background Glow Orbs */}
         <div className="glow-orb w-[550px] h-[550px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
         <div className="glow-orb w-[650px] h-[650px] bg-purple-500/6 bottom-[-150px] left-[-150px] animate-float-slow" />
         <div className="glow-orb w-[450px] h-[450px] bg-blue-500/4 top-[35%] left-[40%] animate-float" style={{ animationDelay: '-4s' }} />
 
-        {/* Styled browser frame window container matching screenshots */}
-        <div className="w-full max-w-7xl h-full flex rounded-[24px] border border-white/5 glass-panel shadow-2xl overflow-hidden z-10 relative">
+        {/* Edge-to-edge container layout */}
+        <div className="w-full h-full flex glass-panel overflow-hidden z-10 relative border-none rounded-none">
           
           {/* Sidebar */}
           <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />

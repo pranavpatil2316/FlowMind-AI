@@ -47,7 +47,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto animate-slide-up h-full text-left">
+    <div className="space-y-6 w-full animate-slide-up h-full text-left">
       {/* 2x2 Grid Widget Matrix */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
@@ -215,7 +215,7 @@ const Dashboard = () => {
                 Automate recurring task reports
               </div>
               <div className="p-3 rounded-xl bg-slate-950/20 border border-white/[0.03] text-[11px] font-semibold text-slate-300 hover:border-purple-500/25 transition-all">
-                Refine focus hours for Alex Chen
+                Refine focus hours for Pranav Patil
               </div>
             </div>
           </div>

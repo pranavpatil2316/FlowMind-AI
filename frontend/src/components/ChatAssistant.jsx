@@ -157,7 +157,7 @@ const ChatAssistant = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-8.5rem)] max-w-6xl mx-auto rounded-2xl overflow-hidden border border-white/5 shadow-2xl animate-slide-up">
+    <div className="flex h-[calc(100vh-6.5rem)] w-full rounded-2xl overflow-hidden border border-white/5 shadow-2xl animate-slide-up">
       
       {/* 2-Column Split: Chat & Workspace Info */}
       <div className="flex-1 flex flex-col h-full bg-slate-950/20 relative min-w-0 text-left">
@@ -386,7 +386,7 @@ const ChatAssistant = () => {
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Recent Activity</span>
           <div className="space-y-3.5 border-l border-white/5 pl-3">
             <div className="text-[10px] text-slate-400 font-semibold leading-normal">
-              <strong className="text-white">John Doe</strong> updated Content Strategy
+              <strong className="text-white">Pranav Patil</strong> updated Content Strategy
               <span className="block text-[8px] text-slate-500 font-medium mt-0.5">12 minutes ago</span>
             </div>
             <div className="text-[10px] text-slate-400 font-semibold leading-normal">
@@ -398,9 +398,9 @@ const ChatAssistant = () => {
 
         {/* Footer profile indicator */}
         <div className="pt-4.5 border-t border-white/5 flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">JD</div>
+          <div className="w-7 h-7 rounded-full bg-cyan-600 flex items-center justify-center text-white text-[9px] font-bold shadow-md">PP</div>
           <div className="flex-1 min-w-0">
-            <span className="text-xs font-bold text-white block truncate leading-none">John Doe</span>
+            <span className="text-xs font-bold text-white block truncate leading-none">Pranav Patil</span>
             <span className="text-[9px] text-slate-500 font-semibold flex items-center gap-1 mt-1">
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full inline-block" />
               <span>online</span>
