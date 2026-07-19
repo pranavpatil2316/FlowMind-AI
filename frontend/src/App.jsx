@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
@@ -10,6 +10,20 @@ import EmailGenerator from './components/EmailGenerator';
 import PdfSummarizer from './components/PdfSummarizer';
 import { TaskProvider, useTasks } from './context/TaskContext';
 import { X, Check } from 'lucide-react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      mainEl.scrollTop = 0;
+    }
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function AppContent() {
   const { 
@@ -154,6 +168,7 @@ function AppContent() {
   // 3. Authenticated App Layout
   return (
     <Router>
+      <ScrollToTop />
       <div className="flex h-screen w-screen bg-bg-dark bg-gradient-radial text-slate-200 relative overflow-hidden">
         
         {/* Ambient Background Glow Orbs */}
