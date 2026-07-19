@@ -45,11 +45,11 @@ function AppContent() {
       setIsLoggedIn(true);
       sessionStorage.setItem('flowmind_logged_in', 'true');
       setLoginLoading(false);
-      addNotification('Logged in as Alex Chen.', 'system');
+      addNotification('Logged in as Pranav Patil.', 'system');
     }, 1000);
   };
 
-  // 1. Splash Loading View
+  // 1. Splash Loading View (with restored original geometric FM logo)
   if (loadingApp) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center bg-bg-dark bg-gradient-radial text-slate-100 relative">
@@ -57,23 +57,11 @@ function AppContent() {
         <div className="glow-orb w-[400px] h-[400px] bg-purple-600/10 bottom-[20%] right-[30%] animate-float-slow" />
         
         <div className="z-10 flex flex-col items-center text-center space-y-6">
-          {/* Pulsing FM Ribbon Logo */}
-          <div className="p-4 rounded-2xl bg-slate-950/60 border border-white/5 shadow-2xl shadow-purple-500/20 animate-pulse-slow">
-            <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.75))' }}>
-              <defs>
-                <linearGradient id="fm-logo-large" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#3b82f6" />
-                  <stop offset="60%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
-              <path 
-                d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
-                stroke="url(#fm-logo-large)" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
+          {/* Pulsing FM Geometric Logo */}
+          <div className="p-4.5 rounded-2xl bg-slate-950/60 border border-white/5 shadow-2xl shadow-purple-500/20 animate-pulse-slow">
+            <svg className="w-12 h-12 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 8px rgba(139, 92, 246, 0.75))' }}>
+              <path d="M4 20V4h9M4 12h6" />
+              <path d="M12 20V8l4 4 4-4v12" />
             </svg>
           </div>
           <div>
@@ -101,23 +89,11 @@ function AppContent() {
         <div className="glow-orb w-[500px] h-[500px] bg-purple-600/8 bottom-[-50px] left-[-50px] animate-float-slow" />
 
         <div className="w-full max-w-md glass-card p-6 md:p-8 rounded-3xl border border-white/5 shadow-2xl flex flex-col items-center text-center space-y-6 z-10 animate-slide-up">
-          {/* Brand Ribbon Logo */}
-          <div className="p-3 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center">
-            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
-              <defs>
-                <linearGradient id="fm-logo-login" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#3b82f6" />
-                  <stop offset="60%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
-              <path 
-                d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
-                stroke="url(#fm-logo-login)" 
-                strokeWidth="2.5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              />
+          {/* Brand Geometric Logo */}
+          <div className="p-3.5 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center text-white">
+            <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
+              <path d="M4 20V4h9M4 12h6" />
+              <path d="M12 20V8l4 4 4-4v12" />
             </svg>
           </div>
 
@@ -137,14 +113,14 @@ function AppContent() {
               <input
                 type="email"
                 required
-                defaultValue="alex.chen@flowmind.ai"
+                defaultValue="pranav.patil@flowmind.ai"
                 className="w-full px-3.5 py-2.5 text-xs md:text-sm glass-input"
               />
             </div>
 
-            {/* Password Field */}
+            {/* Workspace Key (Password) */}
             <div className="space-y-1.5">
-              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Workspace Key (Password)</label>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Workspace Key</label>
               <input
                 type="password"
                 required
@@ -213,7 +189,7 @@ function AppContent() {
           </div>
         </div>
 
-        {/* --- Global Settings Modal (Option A implementation) --- */}
+        {/* --- Global Settings Modal --- */}
         {showSettingsModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="w-full max-w-lg glass-card border border-white/10 rounded-3xl p-6 relative shadow-2xl text-left animate-slide-up">
@@ -280,17 +256,17 @@ function AppContent() {
                   </div>
                 </div>
 
-                {/* 3. Profile Information */}
+                {/* 3. Profile Information (updated to Pranav Patil) */}
                 <div className="p-4 rounded-2xl bg-slate-950/20 border border-white/5 space-y-2">
                   <span className="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider block">User Profile</span>
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">User Name</span>
-                      <span className="text-white font-bold">Alex Chen</span>
+                      <span className="text-white font-bold">Pranav Patil</span>
                     </div>
                     <div>
                       <span className="text-slate-400 block text-[10px] font-semibold">Email Address</span>
-                      <span className="text-white font-bold">alex.chen@flowmind.ai</span>
+                      <span className="text-white font-bold">pranav.patil@flowmind.ai</span>
                     </div>
                   </div>
                 </div>

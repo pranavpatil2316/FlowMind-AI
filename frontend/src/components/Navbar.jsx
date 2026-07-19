@@ -6,10 +6,8 @@ import {
   Search, 
   ChevronDown,
   Activity,
-  Check,
   LogOut,
-  User as UserIcon,
-  Trash2
+  User as UserIcon
 } from 'lucide-react';
 import axios from 'axios';
 import { useTasks } from '../context/TaskContext';
@@ -54,7 +52,7 @@ const Navbar = () => {
       case '/chat':
         return 'FlowMind Workspace | Goal: Launch Q3 Campaign';
       case '/tasks':
-        return 'Task Matrix Hub';
+        return 'Task Manager'; // Changed from Task Matrix Hub
       case '/planner':
         return 'Daily Availability Schedule';
       case '/email':
@@ -121,7 +119,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Search Bar (Now fully connected to search tasks) */}
+        {/* Search Bar */}
         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/5 text-slate-400 text-xs">
           <Search size={13} className="text-slate-400" />
           <input
@@ -197,17 +195,17 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* User Card Avatar with dropdown */}
+        {/* User Card Avatar dropdown (using Pranav Patil consistently) */}
         <div className="relative" ref={userRef}>
           <div 
             onClick={() => setShowUserDropdown(!showUserDropdown)}
             className="flex items-center gap-2.5 pl-2.5 border-l border-white/5 cursor-pointer group"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
-              AC
+              PP
             </div>
             <div className="hidden md:flex items-center gap-1">
-              <span className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Alex Chen</span>
+              <span className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Pranav Patil</span>
               <ChevronDown size={11} className="text-slate-400" />
             </div>
           </div>
@@ -216,8 +214,8 @@ const Navbar = () => {
           {showUserDropdown && (
             <div className="absolute right-0 mt-2.5 w-48 glass-card rounded-2xl border border-white/10 p-2 shadow-2xl z-50 animate-fade-in text-left">
               <div className="px-3.5 py-2.5 border-b border-white/[0.04]">
-                <span className="text-xs font-bold text-white block">Alex Chen</span>
-                <span className="text-[9px] text-slate-500 font-medium block truncate">alex.chen@flowmind.ai</span>
+                <span className="text-xs font-bold text-white block">Pranav Patil</span>
+                <span className="text-[9px] text-slate-500 font-medium block truncate">pranav.patil@flowmind.ai</span>
               </div>
 
               <div className="py-1">

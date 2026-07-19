@@ -43,24 +43,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Logo Brand Area */}
+          {/* Logo Brand Area (restored geometric FM logo) */}
           <div className="p-6 border-b border-white/5 flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center shrink-0">
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
-                <defs>
-                  <linearGradient id="fm-logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="60%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
-                <path 
-                  d="M6.5 19.5c0-5.5 2-9.5 7.5-12C18.5 5.5 19.5 7.5 19.5 7.5s-2.5 2-5 1.5c-3.5-.7-5.5 1.5-6.5 5.5M7 11.5h8" 
-                  stroke="url(#fm-logo-grad)" 
-                  strokeWidth="2.5" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round"
-                />
+            <div className="p-2 rounded-xl bg-slate-950/60 border border-white/5 shadow-md flex items-center justify-center shrink-0 text-white">
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.7))' }}>
+                <path d="M4 20V4h9M4 12h6" />
+                <path d="M12 20V8l4 4 4-4v12" />
               </svg>
             </div>
             <div>
@@ -127,7 +115,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </nav>
         </div>
 
-        {/* User Card Bottom Area */}
+        {/* User Card Bottom Area (consistently PP / Pranav Patil) */}
         <div className="p-4 border-t border-white/5 bg-slate-950/40">
           <div className="flex items-center gap-3 p-2 rounded-xl">
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-400 to-indigo-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
