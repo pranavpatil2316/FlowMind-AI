@@ -1,0 +1,15 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import axios from 'axios'
+import './index.css'
+import App from './App.jsx'
+
+// Configure global API base URL for Axios
+// Falls back to relative paths (proxied via Vite) in development
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
+
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)

@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+backend/venv/
+
+# Environment Variables
+.env
+backend/.env
+
+# Build outputs
+dist/
+frontend/dist/
+build/
+
+# Python caching
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Vite caching
+.vite/
+frontend/.vite/
+
+# Editor / IDE settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# System files
+.DS_Store
+Thumbs.db
