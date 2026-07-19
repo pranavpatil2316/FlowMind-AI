@@ -167,9 +167,9 @@ function AppContent() {
 
   // 3. Authenticated App Layout
   return (
-    <Router>
+    <>
       <ScrollToTop />
-      <div className="flex h-screen w-screen bg-bg-dark bg-gradient-radial text-slate-200 relative overflow-hidden">
+      <div className="flex h-full w-full bg-bg-dark bg-gradient-radial text-slate-200 relative overflow-hidden">
         
         {/* Ambient Background Glow Orbs */}
         <div className="glow-orb w-[550px] h-[550px] bg-indigo-600/8 top-[-100px] right-[-100px] animate-float" />
@@ -296,14 +296,16 @@ function AppContent() {
           </div>
         )}
       </div>
-    </Router>
+    </>
   );
 }
 
 function App() {
   return (
     <TaskProvider>
-      <AppContent />
+      <Router>
+        <AppContent />
+      </Router>
     </TaskProvider>
   );
 }

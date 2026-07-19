@@ -54,7 +54,12 @@ const ChatAssistant = () => {
   const chatEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (chatEndRef.current) {
+      const container = chatEndRef.current.parentElement;
+      if (container) {
+        container.scrollTop = container.scrollHeight;
+      }
+    }
   };
 
   useEffect(() => {
@@ -157,7 +162,7 @@ const ChatAssistant = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-6.5rem)] w-full rounded-2xl overflow-hidden border border-white/5 shadow-2xl animate-slide-up">
+    <div className="flex h-full w-full rounded-2xl overflow-hidden border border-white/5 shadow-2xl animate-slide-up">
       
       {/* 2-Column Split: Chat & Workspace Info */}
       <div className="flex-1 flex flex-col h-full bg-slate-950/20 relative min-w-0 text-left">
