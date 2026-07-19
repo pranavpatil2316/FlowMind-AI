@@ -2,10 +2,12 @@ import os
 import io
 import json
 import logging
+import html
 from typing import List, Optional
 from fastapi import FastAPI, UploadFile, File, HTTPException, Body
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from pypdf import PdfReader
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -25,14 +27,34 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Configure CORS for local development
+# Configure CORS dynamically for security
+allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,https://flow-mind-ai-ten.vercel.app")
+allowed_origins = [o.strip() for o in allowed_origins_str.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify frontend origin
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Security headers middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
+
+# Global Exception Handler to hide stack traces in production
+@app.exception_handler(Exception)
+async def global_exception_handler(request, exc):
+    logger.error(f"Internal server error: {exc}")
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "An internal server error occurred. Please try again later."}
+    )
 
 # Configure Gemini
 api_key_valid = False
@@ -81,20 +103,45 @@ class TextSummaryResponse(BaseModel):
     action_items: List[str] = Field(..., description="Actionable checklist items extracted from the text")
     is_mock: bool = Field(default=False, description="Flag indicating if response is mock")
 
-# --- Input Request Schemas ---
+# --- Input Request Schemas with Pre-Sanitizers and Limits ---
 
 class ChatRequest(BaseModel):
-    message: str
+    message: str = Field(..., min_length=1, max_length=1000)
+
+    @field_validator('message')
+    @classmethod
+    def sanitize_message(cls, v):
+        return html.escape(v.strip())
 
 class PlannerRequest(BaseModel):
-    prompt: str
-    tasks: Optional[List[str]] = []
+    prompt: str = Field(..., min_length=1, max_length=1000)
+    tasks: List[str] = Field(default=[], max_length=100)
+
+    @field_validator('prompt')
+    @classmethod
+    def sanitize_prompt(cls, v):
+        return html.escape(v.strip())
+
+    @field_validator('tasks')
+    @classmethod
+    def sanitize_tasks(cls, v):
+        return [html.escape(t.strip()) for t in v]
 
 class EmailRequest(BaseModel):
-    prompt: str
+    prompt: str = Field(..., min_length=1, max_length=1000)
+
+    @field_validator('prompt')
+    @classmethod
+    def sanitize_prompt(cls, v):
+        return html.escape(v.strip())
 
 class SummarizeRequest(BaseModel):
-    text: str
+    text: str = Field(..., min_length=1, max_length=100000)
+
+    @field_validator('text')
+    @classmethod
+    def sanitize_text(cls, v):
+        return html.escape(v.strip())
 
 # --- Schema Cleaning Helper ---
 

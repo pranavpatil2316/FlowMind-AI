@@ -88,7 +88,7 @@ const TaskManager = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto animate-slide-up h-full text-left">
+    <div className="w-full animate-slide-up h-full text-left">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         {/* Left Side: Tasks Board (lg:col-span-2) */}
@@ -131,8 +131,9 @@ const TaskManager = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Title */}
                 <div className="md:col-span-2 space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Task Title</label>
+                  <label htmlFor="task-title" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Task Title</label>
                   <input
+                    id="task-title"
                     type="text"
                     value={newTitle}
                     onChange={(e) => setNewTitle(e.target.value)}
@@ -143,8 +144,9 @@ const TaskManager = () => {
                 </div>
                 {/* Duration */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Estimated Duration</label>
+                  <label htmlFor="task-duration" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Estimated Duration</label>
                   <input
+                    id="task-duration"
                     type="text"
                     value={newDuration}
                     onChange={(e) => setNewDuration(e.target.value)}
@@ -157,8 +159,9 @@ const TaskManager = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {/* Description */}
                 <div className="md:col-span-2 space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Description</label>
+                  <label htmlFor="task-description" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Description</label>
                   <textarea
+                    id="task-description"
                     value={newDesc}
                     onChange={(e) => setNewDesc(e.target.value)}
                     placeholder="Add some details..."
@@ -168,8 +171,9 @@ const TaskManager = () => {
                 </div>
                 {/* Priority */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Priority Level</label>
+                  <label htmlFor="task-priority" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Priority Level</label>
                   <select
+                    id="task-priority"
                     value={newPriority}
                     onChange={(e) => setNewPriority(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-sm glass-input bg-slate-950/80 cursor-pointer"
@@ -213,8 +217,9 @@ const TaskManager = () => {
                   return (
                     <div key={task.id} className="glass-card p-5 rounded-2xl border border-violet-500/30 space-y-3.5 animate-fade-in">
                       <div className="space-y-1">
-                        <label className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Title</label>
+                        <label htmlFor={`edit-title-${task.id}`} className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Title</label>
                         <input
+                          id={`edit-title-${task.id}`}
                           type="text"
                           value={editTitle}
                           onChange={(e) => setEditTitle(e.target.value)}
@@ -223,8 +228,9 @@ const TaskManager = () => {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Description</label>
+                        <label htmlFor={`edit-desc-${task.id}`} className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Description</label>
                         <textarea
+                          id={`edit-desc-${task.id}`}
                           value={editDesc}
                           onChange={(e) => setEditDesc(e.target.value)}
                           rows={2}
@@ -234,8 +240,9 @@ const TaskManager = () => {
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Priority</label>
+                          <label htmlFor={`edit-priority-${task.id}`} className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Priority</label>
                           <select
+                            id={`edit-priority-${task.id}`}
                             value={editPriority}
                             onChange={(e) => setEditPriority(e.target.value)}
                             className="w-full px-2.5 py-1.5 text-xs glass-input bg-slate-950/80 cursor-pointer"
@@ -246,8 +253,9 @@ const TaskManager = () => {
                           </select>
                         </div>
                         <div className="space-y-1">
-                          <label className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Duration</label>
+                          <label htmlFor={`edit-duration-${task.id}`} className="text-[9px] font-bold text-slate-500 uppercase tracking-wide block">Duration</label>
                           <input
+                            id={`edit-duration-${task.id}`}
                             type="text"
                             value={editDuration}
                             onChange={(e) => setEditDuration(e.target.value)}

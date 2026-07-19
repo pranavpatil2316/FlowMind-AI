@@ -207,16 +207,17 @@ function AppContent() {
         {/* --- Global Settings Modal --- */}
         {showSettingsModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-            <div className="w-full max-w-lg glass-card border border-white/10 rounded-3xl p-6 relative shadow-2xl text-left animate-slide-up">
+            <div role="dialog" aria-modal="true" aria-labelledby="settings-title" className="w-full max-w-lg glass-card border border-white/10 rounded-3xl p-6 relative shadow-2xl text-left animate-slide-up">
               {/* Close Button */}
               <button 
                 onClick={() => setShowSettingsModal(false)}
                 className="absolute top-4 right-4 p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+                aria-label="Close Settings"
               >
                 <X size={16} />
               </button>
 
-              <h2 className="text-base font-extrabold text-white tracking-tight leading-none mb-5">
+              <h2 id="settings-title" className="text-base font-extrabold text-white tracking-tight leading-none mb-5">
                 FlowMind AI Settings
               </h2>
 

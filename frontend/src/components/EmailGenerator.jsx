@@ -91,8 +91,9 @@ const EmailGenerator = () => {
             <form onSubmit={handleGenerateEmail} className="space-y-4.5">
               {/* Context Prompt */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email Context Details</label>
+                <label htmlFor="email-prompt" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email Context Details</label>
                 <textarea
+                  id="email-prompt"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder="e.g. Asking for project delay explanation"
@@ -105,8 +106,9 @@ const EmailGenerator = () => {
               <div className="grid grid-cols-2 gap-4">
                 {/* Tone Select */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tone</label>
+                  <label htmlFor="email-tone" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tone</label>
                   <select
+                    id="email-tone"
                     value={tone}
                     onChange={(e) => setTone(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs glass-input bg-slate-950/80 cursor-pointer"
@@ -119,8 +121,9 @@ const EmailGenerator = () => {
                 </div>
                 {/* Recipient Select */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Recipient</label>
+                  <label htmlFor="email-recipient" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Recipient</label>
                   <select
+                    id="email-recipient"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     className="w-full px-3.5 py-2.5 text-xs glass-input bg-slate-950/80 cursor-pointer"

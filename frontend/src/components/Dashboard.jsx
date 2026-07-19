@@ -66,6 +66,7 @@ const Dashboard = () => {
               <button 
                 onClick={() => handleRefresh('overview')}
                 className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+                aria-label="Refresh Task Overview"
               >
                 <RefreshCw size={11} className={spinning.overview ? 'animate-spin text-purple-400' : ''} />
               </button>
@@ -191,10 +192,11 @@ const Dashboard = () => {
           <div className="flex items-center justify-between pb-2.5 border-b border-white/[0.04]">
             <span className="text-sm font-bold text-white tracking-wide">AI Productivity Insights</span>
             <div className="flex items-center gap-2">
-              <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400"><Plus size={12} /></button>
+              <button className="p-1 rounded-lg hover:bg-white/5 text-slate-400" aria-label="Add Insight"><Plus size={12} /></button>
               <button 
                 onClick={() => handleRefresh('insights')}
                 className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+                aria-label="Refresh Productivity Insights"
               >
                 <RefreshCw size={11} className={spinning.insights ? 'animate-spin text-purple-400' : ''} />
               </button>
@@ -228,6 +230,7 @@ const Dashboard = () => {
             <button 
               onClick={() => handleRefresh('activities')}
               className="p-1 rounded-lg hover:bg-white/5 text-slate-400 transition-colors"
+              aria-label="Refresh Recent Activities"
             >
               <RefreshCw size={11} className={spinning.activities ? 'animate-spin text-purple-400' : ''} />
             </button>

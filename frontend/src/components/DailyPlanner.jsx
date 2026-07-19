@@ -85,8 +85,9 @@ const DailyPlanner = () => {
             <form onSubmit={handleGenerateSchedule} className="space-y-4.5">
               {/* Prompt Input */}
               <div className="space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Available Time Context</label>
+                <label htmlFor="planner-prompt" className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Available Time Context</label>
                 <input
+                  id="planner-prompt"
                   type="text"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}

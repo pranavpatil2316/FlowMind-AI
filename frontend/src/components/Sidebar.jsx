@@ -62,7 +62,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+          <nav aria-label="Primary Navigation" className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
             {menuItems.map((item) => {
               const Icon = item.icon;
               return (

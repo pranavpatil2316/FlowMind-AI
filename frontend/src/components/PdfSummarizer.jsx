@@ -185,6 +185,7 @@ const PdfSummarizer = () => {
                   onChange={handleFileChange}
                   accept=".pdf"
                   className="hidden"
+                  aria-label="Upload PDF Document"
                 />
                 <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-slate-400 mx-auto mb-3 animate-float-slow">
                   <Upload size={18} />

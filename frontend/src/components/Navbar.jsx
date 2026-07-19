@@ -135,6 +135,7 @@ const Navbar = () => {
         <button 
           onClick={() => setShowSettingsModal(true)}
           className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+          aria-label="Workspace Settings"
         >
           <Settings size={15} />
         </button>
@@ -144,6 +145,9 @@ const Navbar = () => {
           <button 
             onClick={() => setShowNotifDropdown(!showNotifDropdown)}
             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all relative"
+            aria-label="System Notifications"
+            aria-haspopup="true"
+            aria-expanded={showNotifDropdown}
           >
             <Bell size={15} />
             {unreadCount > 0 && (
@@ -197,9 +201,13 @@ const Navbar = () => {
 
         {/* User Card Avatar dropdown (using Pranav Patil consistently) */}
         <div className="relative" ref={userRef}>
-          <div 
+          <button 
+            type="button"
             onClick={() => setShowUserDropdown(!showUserDropdown)}
-            className="flex items-center gap-2.5 pl-2.5 border-l border-white/5 cursor-pointer group"
+            className="flex items-center gap-2.5 pl-2.5 border-l border-white/5 cursor-pointer group bg-transparent border-t-0 border-r-0 border-b-0 border-l-0 outline-none"
+            aria-label="User Profile Menu"
+            aria-haspopup="true"
+            aria-expanded={showUserDropdown}
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-xs shadow-md">
               PP
@@ -208,7 +216,7 @@ const Navbar = () => {
               <span className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">Pranav Patil</span>
               <ChevronDown size={11} className="text-slate-400" />
             </div>
-          </div>
+          </button>
 
           {/* User Menu Dropdown */}
           {showUserDropdown && (
